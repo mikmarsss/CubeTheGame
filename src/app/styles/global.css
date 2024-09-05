@@ -1,0 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: 'Inter-Regular';
+    src: url(../../shared/fonts/Inter-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'Inter-Bold';
+    src: url(../../shared/fonts/Inter-Bold.ttf);
+}
