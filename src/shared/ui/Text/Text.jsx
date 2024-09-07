@@ -13,15 +13,14 @@ const StyledButton = styled.p`
     font-family: ${props => props.font || 'Inter-Regular'};
     font-size:${props => props.fontSize || '16px'};
     cursor:${props => props.cursor || 'static'};
-
 `;
 
 
 
-const Text = ({ children, width, height, color, ml, mr, mb, mt, font, fontSize, cursor }) => {
+const Text = ({ onClick, children, width, height, color, ml, mr, mb, mt, font, fontSize, cursor }) => {
     return (
         <>
-            <StyledButton width={width} height={height} color={color} ml={ml} mr={mr} mb={mb} mt={mt} font={font} fontSize={fontSize} cursor={cursor}>
+            <StyledButton onClick={onClick} width={width} height={height} color={color} ml={ml} mr={mr} mb={mb} mt={mt} font={font} fontSize={fontSize} cursor={cursor}>
                 {children}
             </StyledButton>
         </>

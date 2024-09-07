@@ -13,28 +13,32 @@ const StyledButton = styled.button`
     font-size: ${props => props.fontSize || '16px'};
     border-radius: 5px;
     border: none;
-    border-bottom: ${props => props.backColor === '#37AC00' ? '1px solid #55F30A' : '1px solid #9159BE'};
+    border-bottom: ${props => props.bb};
     font-family: ${props => props.font || 'Inter-Regular'};
     font-size:${props => props.fontSize || '16px'};
     cursor:${props => props.cursor || 'pointer'};
+    position:${props => props.position || 'static'};
+    top:${props => props.top};
+    left:${props => props.left};
+    transform:${props => props.transform};
 
     &:hover {
-        background-color: ${props => props.backColor === '#37AC00' ? '#41CA00' : '#8151A8'};
-        border-bottom: ${props => props.backColor === '#37AC00' ? '1px solid #7DFF3F' : '1px solid #AB69E2'};
+        background-color: ${props => props.bgHover || 'none'};
+        border-bottom: ${props => props.bbHover || 'none'};
     }
 
     &:active {
-        background-color: ${props => props.activeBgColor || '#563570'};
+        background-color: ${props => props.bgHover || '#563570'};
         border-bottom: ${props => props.activeBb || '1px solid #7D5CA8'};
     }
 `;
 
 
 
-const Button = ({ children, width, height, color, ml, mr, mb, mt, backColor, font, fontSize, bb, cursor }) => {
+const Button = ({ onClick, transform, top, left, position, bgHover, children, width, bbHover, height, color, ml, mr, mb, mt, backColor, font, fontSize, bb, cursor }) => {
     return (
         <>
-            <StyledButton width={width} height={height} color={color} ml={ml} mr={mr} mb={mb} mt={mt} backColor={backColor} font={font} fontSize={fontSize} bb={bb} cursor={cursor}>
+            <StyledButton onClick={onClick} transform={transform} left={left} top={top} bgHover={bgHover} bbHover={bbHover} position={position} width={width} height={height} color={color} ml={ml} mr={mr} mb={mb} mt={mt} backColor={backColor} font={font} fontSize={fontSize} bb={bb} cursor={cursor}>
                 {children}
             </StyledButton>
         </>
