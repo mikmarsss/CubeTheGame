@@ -3,13 +3,15 @@ import Container from "../shared/ui/Container";
 import Text from "../shared/ui/Text/Text";
 import Button from "../shared/ui/Button";
 import DropDawnMenu from "../shared/ui/DropDawnMenu";
+import { betState } from "../app/atoms/betAtom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 const BetsPanel = () => {
     const [isOpenMoney, setIsOpenMoney] = useState(false);
     const [isOpenNumbers, setIsOpenNumbers] = useState(false);
-    const [number, setNumber] = useState('');
     const betValues = ['1.00', '2.00', '3.00', '5.00', '10.00', '25.00', '60.00', '100.00']
     const numbers = ['1', '2', '3', '4', '5', '6']
+    const [state, setState] = useRecoilState(betState);
 
     const showMoneyHandler = () => {
         setIsOpenMoney(!isOpenMoney);
@@ -17,14 +19,18 @@ const BetsPanel = () => {
 
     const showNumbersHandler = () => {
         setIsOpenNumbers(!isOpenNumbers);
-        console.log('1')
     };
 
-    const chooseNumberHandler = () => {
-        console.log('1')
+    const setBetHandler = (type, number) => {
+        if(state.type === 'number'){
+            setIsOpenNumbers(false)
+        }
+        setState({
+            type: type,
+            number: number
+        });
 
     }
-
 
     return (
         <>
@@ -62,17 +68,21 @@ const BetsPanel = () => {
                         gap={'8px'}
                         mt={'4px'}>
                         <Button
-                            backColor={'#643F82'}
-                            bb={'1px solid #9159BE'}
+                            backColor={state.type === 'even' ? '#F6A200' : '#643F82'}
+                            bb={state.type === 'even' ? '1px solid #D77400' : '1px solid #9159BE'}
                             bgHover={'#8151A8'}
-                            bbHover={'1px solid #AB69E2'}>
+                            bbHover={'1px solid #AB69E2'}
+                            onClick={() => setBetHandler('even')}
+                            >
                             Четное
                         </Button>
+
                         <Button
-                            backColor={'#643F82'}
-                            bb={'1px solid #9159BE'}
+                            backColor={state.type === 'odd' ? '#F6A200' : '#643F82'}
+                            bb={state.type === 'odd' ? '1px solid #D77400' : '1px solid #9159BE'}
                             bgHover={'#8151A8'}
-                            bbHover={'1px solid #AB69E2'}>
+                            onClick={() => setBetHandler('odd')}
+                            >
                             Нечетное
                         </Button>
                     </Container>
@@ -82,19 +92,21 @@ const BetsPanel = () => {
                         gap={'8px'}
                         mt={'8px'}>
                         <Button
-                            backColor={'#643F82'}
-                            bb={'1px solid #9159BE'}
+                            backColor={state.type === '1to3' ? '#F6A200' : '#643F82'}
+                            bb={state.type === '1to3' ? '1px solid #D77400' : '1px solid #9159BE'}
                             bgHover={'#8151A8'}
                             bbHover={'1px solid #AB69E2'}
+                            onClick={() => setBetHandler('1to3')}
                         >
                             От 1 до 3
                         </Button>
+
                         <Button
-                            backColor={'#643F82'}
-                            bb={'1px solid #9159BE'}
+                            backColor={state.type === '4to6' ? '#F6A200' : '#643F82'}
+                            bb={state.type === '4to6' ? '1px solid #D77400' : '1px solid #9159BE'}
                             bgHover={'#8151A8'}
                             bbHover={'1px solid #AB69E2'}
-                            onClick={showNumbersHandler}
+                            onClick={() => setBetHandler('4to6')}
                         >
                             От 4 до 6
                         </Button>
@@ -123,7 +135,7 @@ const BetsPanel = () => {
                                     numbers.map((item, index) => (
                                         <>
                                             <Button
-                                                onClick={chooseNumberHandler}
+                                                onClick={() => setBetHandler('number', item)}
                                                 key={index}
                                             >
                                                 {item}
