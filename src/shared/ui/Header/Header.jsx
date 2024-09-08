@@ -44,7 +44,6 @@ const Header = () => {
                     state.isVisible &&
                     <AuthPanel type={state.type} />
                 }
-
                 {
                     !isAuth &&
                     <>

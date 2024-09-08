@@ -5,6 +5,6 @@ export const betState = atom({
     default: {
         type: 'none',
         number: 0,
-        size: 0
+        size: '1.00'
     }
 });

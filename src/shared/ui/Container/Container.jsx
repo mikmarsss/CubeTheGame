@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 const StyledContainer = styled.div`
     width: ${props => props.width || 'auto'};
-    height: ${props => props.height || 'auto'};;
+    height: ${props => props.height || 'auto'};
+    color: ${props => props.color || 'white'};
     min-height:${props => props.minHeight || 'auto'};
     background-color: ${props => props.backColor};
     background: ${props => props.backColor ? props.backColor : 'linear-gradient(to right, #0C0B1E, #2A0F3B, #0C0B1E)'} ;
@@ -25,13 +26,14 @@ const StyledContainer = styled.div`
     z-index:${props => props.zIndex};
     opacity: ${props => props.opacity};
     gap: ${props => props.gap};
+    flex-wrap: ${props => props.fw};
 
 `;
 
-const Container = ({ children, gap, opacity, zIndex, br, height, minHeight, width, position, backColor, display, fd, ai, jc, fg, mt, mr, ml, mb, border, top, left, transform }) => {
+const Container = ({ children, fw, gap, opacity, zIndex, color, br, height, minHeight, width, position, backColor, display, fd, ai, jc, fg, mt, mr, ml, mb, border, top, left, transform }) => {
     return (
         <>
-            <StyledContainer zIndex={zIndex} gap={gap} opacity={opacity} border={border} br={br} height={height} backColor={backColor} minHeight={minHeight} width={width} position={position} transform={transform} display={display} fd={fd} ai={ai} jc={jc} fg={fg} mt={mt} mr={mr} ml={ml} mb={mb} top={top} left={left}>
+            <StyledContainer zIndex={zIndex} fw={fw} gap={gap} color={color} opacity={opacity} border={border} br={br} height={height} backColor={backColor} minHeight={minHeight} width={width} position={position} transform={transform} display={display} fd={fd} ai={ai} jc={jc} fg={fg} mt={mt} mr={mr} ml={ml} mb={mb} top={top} left={left}>
                 {children}
             </StyledContainer>
         </>

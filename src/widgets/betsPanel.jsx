@@ -5,13 +5,20 @@ import Button from "../shared/ui/Button";
 import DropDawnMenu from "../shared/ui/DropDawnMenu";
 import { betState } from "../app/atoms/betAtom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useGame } from "../entities/hooks/useGame";
+import { betResultState } from "../app/atoms/betResultAtom";
+import { diceResultState } from "../app/atoms/diceResultAtom";
 
-const BetsPanel = () => {
+const BetsPanel = ({ rollDice }) => {
     const [isOpenMoney, setIsOpenMoney] = useState(false);
     const [isOpenNumbers, setIsOpenNumbers] = useState(false);
+    const [state, setState] = useRecoilState(betState);
+    const bet = useRecoilValue(betResultState)
+    const dice = useRecoilValue(diceResultState)
     const betValues = ['1.00', '2.00', '3.00', '5.00', '10.00', '25.00', '60.00', '100.00']
     const numbers = ['1', '2', '3', '4', '5', '6']
-    const [state, setState] = useRecoilState(betState);
+
+    const play = useGame()
 
     const showMoneyHandler = () => {
         setIsOpenMoney(!isOpenMoney);
@@ -21,21 +28,27 @@ const BetsPanel = () => {
         setIsOpenNumbers(!isOpenNumbers);
     };
 
-    const setBetHandler = (type, number) => {
-        if(state.type === 'number'){
-            setIsOpenNumbers(false)
-        }
-        setState({
-            type: type,
-            number: number
-        });
-
+    const playTheGameHandler = async () => {
+        await rollDice()
+        await play(state)
     }
+
+
+    const setBetHandler = (type, number) => {
+        setIsOpenNumbers(false)
+        setState((prevState) => (
+            {
+                type: type,
+                number: number,
+                size: prevState.size
+            }
+        ))
+    }
+
 
     return (
         <>
             <Container
-                border={'1px solid red'}
                 width={'338px'}
                 height={'auto'}
                 backColor={'transparent'}
@@ -53,6 +66,9 @@ const BetsPanel = () => {
                         isOpen={isOpenMoney}
                         options={betValues}
                     >
+                        {
+                            state.size
+                        }
                     </DropDawnMenu>
                 </Container>
                 <Container
@@ -68,21 +84,24 @@ const BetsPanel = () => {
                         gap={'8px'}
                         mt={'4px'}>
                         <Button
-                            backColor={state.type === 'even' ? '#F6A200' : '#643F82'}
-                            bb={state.type === 'even' ? '1px solid #D77400' : '1px solid #9159BE'}
+                            backColor={'#643F82'}
+                            bb={'1px solid #9159BE'}
                             bgHover={'#8151A8'}
                             bbHover={'1px solid #AB69E2'}
-                            onClick={() => setBetHandler('even')}
-                            >
+                            onClick={() => setBetHandler('even', 1)}
+                            isActive={state.type === 'even' ? true : false}
+                        >
                             Четное
                         </Button>
 
                         <Button
-                            backColor={state.type === 'odd' ? '#F6A200' : '#643F82'}
-                            bb={state.type === 'odd' ? '1px solid #D77400' : '1px solid #9159BE'}
+                            backColor={'#643F82'}
+                            bb={'1px solid #9159BE'}
                             bgHover={'#8151A8'}
-                            onClick={() => setBetHandler('odd')}
-                            >
+                            onClick={() => setBetHandler('odd', 1)}
+                            isActive={state.type === 'odd' ? true : false}
+
+                        >
                             Нечетное
                         </Button>
                     </Container>
@@ -92,21 +111,23 @@ const BetsPanel = () => {
                         gap={'8px'}
                         mt={'8px'}>
                         <Button
-                            backColor={state.type === '1to3' ? '#F6A200' : '#643F82'}
-                            bb={state.type === '1to3' ? '1px solid #D77400' : '1px solid #9159BE'}
+                            backColor={'#643F82'}
+                            bb={'1px solid #9159BE'}
                             bgHover={'#8151A8'}
                             bbHover={'1px solid #AB69E2'}
-                            onClick={() => setBetHandler('1to3')}
+                            onClick={() => setBetHandler('1to3', 1)}
+                            isActive={state.type === '1to3' ? true : false}
                         >
                             От 1 до 3
                         </Button>
 
                         <Button
-                            backColor={state.type === '4to6' ? '#F6A200' : '#643F82'}
-                            bb={state.type === '4to6' ? '1px solid #D77400' : '1px solid #9159BE'}
+                            backColor={'#643F82'}
+                            bb={'1px solid #9159BE'}
                             bgHover={'#8151A8'}
                             bbHover={'1px solid #AB69E2'}
-                            onClick={() => setBetHandler('4to6')}
+                            onClick={() => setBetHandler('4to6', 1)}
+                            isActive={state.type === '4to6' ? true : false}
                         >
                             От 4 до 6
                         </Button>
@@ -119,8 +140,29 @@ const BetsPanel = () => {
                         width={'338px'}
                         mt={'8px'}
                         onClick={showNumbersHandler}
+                        isActive={state.type === 'number' ? true : false}
+                        display={'flex'}
+                        fd={'row'}
+                        ai={'center'}
+                        jc={'center'}
+                        gap={'136px'}
+
                     >
                         Конкретное число
+                        <Container
+                            width={'27px'}
+                            height={'22px'}
+                            br={'4px'}
+                            backColor={'white'}
+                            display={'flex'}
+                            fd={'column'}
+                            ai={'center'}
+                            jc={'center'}
+                            opacity={state.type === 'number' ? '1' : '0.1'}
+                            color={'black'}
+                        >
+                            {state.number}
+                        </Container>
                     </Button>
                     {
                         isOpenNumbers &&
@@ -130,6 +172,11 @@ const BetsPanel = () => {
                                 height={'auto'}
                                 backColor={'transparent'}
                                 mt={'8px'}
+                                display={'flex'}
+                                fd={'row'}
+                                fw={'wrap'}
+                                jc={'center'}
+                                gap={'2px'}
                             >
                                 {
                                     numbers.map((item, index) => (
@@ -146,6 +193,19 @@ const BetsPanel = () => {
                             </Container>
                         </>
                     }
+                    <Button
+                        backColor={'#37AC00'}
+                        bb={'1px solid #55F30A'}
+                        bgHover={'#41CA00'}
+                        bbHover={'1px solid #7DFF3F'}
+                        width={'338px'}
+                        mt={'16px'}
+                        // onClick={showNumbersHandler}
+                        disabled={state.type === 'none' ? true : false}
+                        onClick={playTheGameHandler}
+                    >
+                        Сделать ставку
+                    </Button>
                 </Container>
             </Container>
         </>

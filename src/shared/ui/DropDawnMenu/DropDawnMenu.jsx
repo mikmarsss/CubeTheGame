@@ -1,5 +1,7 @@
 import React from "react";
 import styled, { css } from 'styled-components';
+import { betState } from "../../../app/atoms/betAtom";
+import { useRecoilState } from "recoil";
 
 const StyledDropMenu = styled.button`
     /* width: ${props => props.width || '338px'};
@@ -84,6 +86,19 @@ const StyledDropMenuValue = styled.div`
 `;
 
 const DropDawnMenu = ({ onClick, isOpen, transform, top, left, position, children, width, height, color, ml, mr, mb, mt, backColor, font, fontSize, cursor, options }) => {
+    const [state, setState] = useRecoilState(betState);
+
+    const setBetHandler = (size) => {
+        setState((prevState) => (
+            {
+                type: prevState.type,
+                number: prevState.number,
+                size: size
+            }
+        ))
+    }
+
+
     return (
         <>
             <StyledDropMenu onClick={onClick} isOpen={isOpen} transform={transform} left={left} top={top} position={position} width={width} height={height} color={color} ml={ml} mr={mr} mb={mb} mt={mt} backColor={backColor} font={font} fontSize={fontSize} cursor={cursor}>
@@ -121,7 +136,11 @@ const DropDawnMenu = ({ onClick, isOpen, transform, top, left, position, childre
                     isOpen &&
                     <StyledDropMenuValue isOpen={isOpen}>
                         {options.map((option, index) => (
-                            <div key={index} style={{ height: '24px', cursor: 'pointer' }}>
+                            <div
+                                key={index}
+                                style={{ height: '24px', cursor: 'pointer' }}
+                                onClick={() => setBetHandler(option)}
+                            >
                                 {option}
                             </div>
                         ))}

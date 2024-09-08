@@ -21,24 +21,36 @@ const StyledButton = styled.button`
     top:${props => props.top};
     left:${props => props.left};
     transform:${props => props.transform};
+    display: ${props => props.display};
+    flex-direction:${props => props.fd};
+    align-items:${props => props.ai};
+    justify-content:${props => props.jc};
+    gap:${props => props.gap};
+    opacity:${props => props.opacity};
 
     &:hover {
         background-color: ${props => props.bgHover || 'none'};
         border-bottom: ${props => props.bbHover || 'none'};
     }
 
-    &:active {
-        background-color: ${props => props.bgHover || '#563570'};
-        border-bottom: ${props => props.activeBb || '1px solid #7D5CA8'};
-    }
+   &.active {
+    background-color: #F6A200;
+    border:1px solid #D77400;
+   }
+
+     &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed; 
+    pointer-events: none; 
+  }
 `;
 
 
 
-const Button = ({ onClick, transform, top, left, position, bgHover, children, width, bbHover, height, color, ml, mr, mb, mt, backColor, font, fontSize, bb, cursor }) => {
+const Button = ({ onClick, disabled, display, fd, ai, opacity, jc, gap, transform, isActive, top, left, position, bgHover, children, width, bbHover, height, color, ml, mr, mb, mt, backColor, font, fontSize, bb, cursor }) => {
     return (
         <>
-            <StyledButton onClick={onClick} transform={transform} left={left} top={top} bgHover={bgHover} bbHover={bbHover} position={position} width={width} height={height} color={color} ml={ml} mr={mr} mb={mb} mt={mt} backColor={backColor} font={font} fontSize={fontSize} bb={bb} cursor={cursor}>
+            <StyledButton disabled={disabled} onClick={onClick} opacity={opacity} gap={gap} display={display} fd={fd} ai={ai} jc={jc} className={isActive ? 'active' : ''} transform={transform} left={left} top={top} bgHover={bgHover} bbHover={bbHover} position={position} width={width} height={height} color={color} ml={ml} mr={mr} mb={mb} mt={mt} backColor={backColor} font={font} fontSize={fontSize} bb={bb} cursor={cursor}>
                 {children}
             </StyledButton>
         </>

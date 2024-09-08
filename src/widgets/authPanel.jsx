@@ -18,6 +18,9 @@ const AuthPanel = () => {
 
     const loginHandler = async () => {
         await login(email, password)
+        setState((prevState) => ({
+            isVisible: !prevState.isVisible
+        }));
     }
 
     const closeAuthPanelHandler = (show) => {
