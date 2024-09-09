@@ -89,9 +89,6 @@ const AuthPanel = () => {
                         >
                             Войти
                         </Button>
-                        <Text>
-                            Error
-                        </Text>
                     </Container>
                 }
                 {
