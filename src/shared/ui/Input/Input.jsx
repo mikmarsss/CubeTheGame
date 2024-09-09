@@ -19,16 +19,17 @@ const StyledInput = styled.input`
     box-sizing: border-box;
 
     &:focus{
-            border:${props => props.border || 'solid #3893FF 1px'};
+        border:${props => props.errorr ? 'solid #FF0000 1px' : 'solid #3893FF 1px'};
+        outline:none;
     }
 `;
 
 
 
-const Input = ({ value, backColor, border, borderRadius, type, placeholder, width, height, color, ml, mr, mb, mt, font, fontSize, onChange }) => {
+const Input = ({ value, errorr, backColor, border, borderRadius, type, placeholder, width, height, color, ml, mr, mb, mt, font, fontSize, onChange }) => {
     return (
         <>
-            <StyledInput value={value} border={border} borderRadius={borderRadius} backColor={backColor} onChange={onChange} type={type} placeholder={placeholder} width={width} height={height} color={color} ml={ml} mr={mr} mb={mb} mt={mt} font={font} fontSize={fontSize} />
+            <StyledInput errorr={errorr} value={value} border={border} borderRadius={borderRadius} backColor={backColor} onChange={onChange} type={type} placeholder={placeholder} width={width} height={height} color={color} ml={ml} mr={mr} mb={mb} mt={mt} font={font} fontSize={fontSize} />
 
         </>
     )

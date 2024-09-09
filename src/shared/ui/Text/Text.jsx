@@ -13,7 +13,7 @@ const StyledButton = styled.p`
     font-family: ${props => props.font || 'Inter-Regular'};
     font-size:${props => props.fontSize || '16px'};
     cursor:${props => props.cursor || 'static'};
-        z-index:${props => props.zIndex};
+    z-index:${props => props.zIndex};
 `;
 
 

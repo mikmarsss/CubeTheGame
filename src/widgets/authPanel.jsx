@@ -13,7 +13,8 @@ const AuthPanel = () => {
     const login = useLogin()
 
 
-
+    const [passwordError, setPasswordError] = useState('Поле не может быть пустым')
+    const [emailError, setEmailError] = useState('Поле не может быть пустым')
     const [state, setState] = useRecoilState(authPanelState);
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
@@ -31,6 +32,26 @@ const AuthPanel = () => {
             isVisible: !prevState.isVisible
         }));
     };
+
+    const validatePasswordHandler = (e) => {
+        setPassword(e.target.value)
+        if (e.target.value.length < 6) {
+            setPasswordError('Пароль должен быть больше 6 символов')
+        } else {
+            setPasswordError('')
+        }
+    }
+
+    const validateLoginHandler = (e) => {
+        setEmail(e.target.value)
+        if (e.target.value === '') {
+            setEmailError('Логин не может быть пустым')
+        } else {
+            setEmailError('')
+        }
+    }
+
+
 
     return (
         <>
@@ -65,29 +86,59 @@ const AuthPanel = () => {
                 >
                     <ExitButton />
                 </Button>
-                <Input
-                    type={'text'}
-                    placeholder={'Login'}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <Input
-                    type={'password'}
-                    placeholder={'Password'}
-                    color={'black'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                <Container
+                    display={'flex'}
+                    fd={'column'}
+                    backColor={'inherit'}
+                >
+                    <Input
+                        type={'text'}
+                        placeholder={'Login'}
+                        value={email}
+                        onChange={(e) => validateLoginHandler(e)}
+                        errorr={emailError === '' ? false : true}
+                    />
+                    {
+                        emailError !== '' &&
+                        <Text fontSize={'14px'} color={'#FF0000'}>
+                            {emailError}
+                        </Text>
+                    }
+                </Container>
+                <Container
+                    display={'flex'}
+                    fd={'column'}
+                    backColor={'inherit'}
+                >
+                    <Input
+                        type={'password'}
+                        placeholder={'Password'}
+                        color={'black'}
+                        value={password}
+                        onChange={(e) => validatePasswordHandler(e)}
+                        errorr={passwordError === '' ? false : true}
+                    />
+                    {
+                        passwordError !== '' &&
+                        <Text fontSize={'14px'} color={'#FF0000'}>
+                            {passwordError}
+                        </Text>
+                    }
+
+                </Container>
+
+
                 {
                     state.type === 'vhod' &&
                     <Container display={'flex'} fd={'column'} >
                         <Button
                             backColor={'#643F82'}
-                            bb={'#9159BE'}
+                            bb={'1px solid #9159BE'}
                             width={'338px'}
                             onClick={loginHandler}
                             bgHover={'#8151A8'}
-                            bbHover={'#AB69E2'}
+                            bbHover={'1px solid #AB69E2'}
+                            disabled={(emailError === '' && passwordError === '') ? false : true}
                         >
                             Войти
                         </Button>
@@ -97,10 +148,11 @@ const AuthPanel = () => {
                     state.type === 'reg' &&
                     <Button
                         backColor={'#643F82'}
-                        bb={'#9159BE'}
+                        bb={'1px solid #9159BE'}
                         width={'338px'}
                         bgHover={'#8151A8'}
-                        bbHover={'#AB69E2'}
+                        bbHover={'1px solid #AB69E2'}
+                        disabled={(emailError === '' && passwordError === '') ? false : true}
                     >
                         Зарегистрироваться
                     </Button>
