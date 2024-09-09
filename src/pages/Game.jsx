@@ -3,34 +3,46 @@ import Button from "../shared/ui/Button";
 import Container from "../shared/ui/Container";
 import Header from "../shared/ui/Header";
 import Text from "../shared/ui/Text/Text";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { authState } from "../app/atoms/authAtom";
 import BetsPanel from "../widgets/betsPanel";
 import Dice from "../shared/ui/Dice/Dice";
 import { betResultState } from "../app/atoms/betResultAtom";
 import { diceResultState } from "../app/atoms/diceResultAtom";
+import { betState } from "../app/atoms/betAtom";
 
 const Game = () => {
     const isAusth = useRecoilValue(authState)
 
     const bet = useRecoilValue(betResultState)
     const dice = useRecoilValue(diceResultState)
-
+    const betStatee = useSetRecoilState(betState)
     const [isRolling, setIsRolling] = useState(false);
 
 
     const rollDice = () => {
         setIsRolling(true);
-        
+        betStatee((prevstate) => ({
+            size: prevstate.size,
+            number: prevstate.number,
+            type: prevstate.type,
+            isRolling: true
+        }))
         setTimeout(() => {
             setIsRolling(false);
+            betStatee((prevstate) => ({
+                size: prevstate.size,
+                number: prevstate.number,
+                type: prevstate.type,
+                isRolling: false
+            }))
         }, 2000);
     };
     return (
         <>
             <Container width={'100%'} minHeight={'100vh'} display={'flex'} fd={'column'} ai={'center'} jc={'center'}>
                 <Container width={'100%'} zIndex={'10'}>
-                    <Header isRolling = {isRolling} />
+                    <Header isRolling={isRolling} />
                 </Container>
                 {
                     !isAusth &&
@@ -76,10 +88,10 @@ const Game = () => {
 
                     }
                     {
-                        isRolling && 
+                        isRolling &&
                         <Text fontSize={'20px'} font={'Inter-Regular'}>
-                        Бросаем кубик...
-                    </Text>
+                            Бросаем кубик...
+                        </Text>
                     }
                     <Container
                         width={'338px'}

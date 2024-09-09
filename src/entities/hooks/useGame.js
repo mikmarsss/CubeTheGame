@@ -9,20 +9,12 @@ import { userBalanceState } from "../../app/atoms/userBalance";
 export const useGame = () => {
     const setBetResult = useSetRecoilState(betResultState);
     const setDiceResult = useSetRecoilState(diceResultState);
-    const bet = useRecoilValue(betState)
+    const betStatee = useRecoilValue(betState)
     const setBalanceState = useSetRecoilState(userBalanceState)
-
-    const EditBalance = async() => {
-        setBalanceState((prevState) => ({
-            balance: prevState.balance - bet.size
-        }))
-    }
 
     return async (bet) => {
         try {
-            await EditBalance()
             const gameData = await GameService.play(bet);
-            console.log(gameData.isWin, gameData.result, gameData.wonMoney)
             setBetResult(
                 {
                     status: gameData.isWin,

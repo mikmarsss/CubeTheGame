@@ -17,6 +17,10 @@ const StyledInput = styled.input`
     border-radius:${props => props.borderRadius || '6px'};
     padding-left: 12px;
     box-sizing: border-box;
+
+    &:focus{
+            border:${props => props.border || 'solid #3893FF 1px'};
+    }
 `;
 
 

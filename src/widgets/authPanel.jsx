@@ -80,14 +80,19 @@ const AuthPanel = () => {
                 />
                 {
                     state.type === 'vhod' &&
-                    <Button
-                        backColor={'#643F82'}
-                        bb={'#9159BE'}
-                        width={'338px'}
-                        onClick={loginHandler}
-                    >
-                        Войти
-                    </Button>
+                    <Container display={'flex'} fd={'column'} >
+                        <Button
+                            backColor={'#643F82'}
+                            bb={'#9159BE'}
+                            width={'338px'}
+                            onClick={loginHandler}
+                        >
+                            Войти
+                        </Button>
+                        <Text>
+                            Error
+                        </Text>
+                    </Container>
                 }
                 {
                     state.type === 'reg' &&
@@ -95,6 +100,8 @@ const AuthPanel = () => {
                         backColor={'#643F82'}
                         bb={'#9159BE'}
                         width={'338px'}
+                        bgHover={'#8151A8'}
+                        bbHover={'#AB69E2'}
                     >
                         Зарегистрироваться
                     </Button>

@@ -3,13 +3,13 @@ import { userState } from '../../app/atoms/userAtom';
 import { authState } from '../../app/atoms/authAtom';
 import { useSetRecoilState } from 'recoil';
 
-export const useRefresh = () => {
+export const useFetchUser = () => {
     const setUser = useSetRecoilState(userState);
     const setAuth = useSetRecoilState(authState);
 
-    return async (login, password) => {
+    return async () => {
         try {
-            const userData = await UserService.refreshUser(login, password);
+            const userData = await UserService.fetchUserBySid();
             setUser(userData);
             setAuth(true);
             return userData;
@@ -18,5 +18,4 @@ export const useRefresh = () => {
             throw error;
         }
     };
-
 };

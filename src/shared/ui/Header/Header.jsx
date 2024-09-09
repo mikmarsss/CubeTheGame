@@ -19,20 +19,12 @@ const StyledHeader = styled.div`
     border:none;
 `;
 
-const Header = ({isRolling}) => {
+const Header = ({ isRolling }) => {
     const userBalance = useRecoilValue(userBalanceState)
     const isAuth = useRecoilValue(authState)
-    const user = useRecoilValue(userState)
 
     const [state, setState] = useRecoilState(authPanelState);
-    const [prevBalance, setPrevBalance] = useState(userBalance.balance)
-   
-
-    useEffect(()=>{
-        setPrevBalance(userBalance.balance)
-    }, [userBalance])
-
-    console.log(userBalance.balance)
+    const [currentBalance, setCurrentBalance] = useState(userBalance.balance)
 
     const showAuthPanelHandler = (show) => {
         setState((prevState) => ({
@@ -41,6 +33,10 @@ const Header = ({isRolling}) => {
             isVisible: !prevState.isVisible
         }));
     };
+
+    useEffect(() => {
+        setCurrentBalance(userBalance.balance)
+    }, [isRolling])
 
     return (
         <>
@@ -84,14 +80,9 @@ const Header = ({isRolling}) => {
                 }
                 {
                     isAuth &&
-                    <Text width={'auto'} font={'Inter-Bold'} ml={'auto'} mr={'1.88%'} cursor={'pointer'}>
-                        {/* {
-                             !isRolling &&
-                           userBalance.balance + ' (TND)'
-                        } */}
+                    <Text width={'auto'} font={'Inter-Regular'} ml={'auto'} mr={'1.88%'} cursor={'pointer'}>
                         {
-                            // isRolling &&
-                            prevBalance+ ' (TND)'
+                            currentBalance + ' (TND)'
                         }
                     </Text>
 

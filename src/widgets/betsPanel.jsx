@@ -8,15 +8,21 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useGame } from "../entities/hooks/useGame";
 import { betResultState } from "../app/atoms/betResultAtom";
 import { diceResultState } from "../app/atoms/diceResultAtom";
+import { userBalanceState } from "../app/atoms/userBalance";
 
 const BetsPanel = ({ rollDice }) => {
     const [isOpenMoney, setIsOpenMoney] = useState(false);
     const [isOpenNumbers, setIsOpenNumbers] = useState(false);
     const [state, setState] = useRecoilState(betState);
+
     const bet = useRecoilValue(betResultState)
     const dice = useRecoilValue(diceResultState)
+    const setBalanceState = useSetRecoilState(userBalanceState)
+    const betStatee = useRecoilValue(betState)
     const betValues = ['1.00', '2.00', '3.00', '5.00', '10.00', '25.00', '60.00', '100.00']
     const numbers = ['1', '2', '3', '4', '5', '6']
+
+    const userBalance = useRecoilValue(userBalanceState)
 
     const play = useGame()
 
@@ -28,7 +34,14 @@ const BetsPanel = ({ rollDice }) => {
         setIsOpenNumbers(!isOpenNumbers);
     };
 
+    const changeBalance = async () => {
+        setBalanceState((prevstate) => ({
+            balance: prevstate.balance - betStatee.size
+        }))
+    }
+
     const playTheGameHandler = async () => {
+        await changeBalance()
         await rollDice()
         await play(state)
     }
@@ -201,7 +214,7 @@ const BetsPanel = ({ rollDice }) => {
                         width={'338px'}
                         mt={'16px'}
                         // onClick={showNumbersHandler}
-                        disabled={state.type === 'none' ? true : false}
+                        disabled={(state.type === 'none' || userBalance.balance < betStatee.size) ? true : false}
                         onClick={playTheGameHandler}
                     >
                         Сделать ставку
