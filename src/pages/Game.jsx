@@ -58,7 +58,7 @@ const Game = () => {
                     fd={'column'}
                     fg={'1'}
                     ai={'center'}
-                    mt={'118px'}
+                    mt={'6%'}
                 >
 
                     {
