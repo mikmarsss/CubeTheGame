@@ -86,6 +86,8 @@ const AuthPanel = () => {
                             bb={'#9159BE'}
                             width={'338px'}
                             onClick={loginHandler}
+                            bgHover={'#8151A8'}
+                            bbHover={'#AB69E2'}
                         >
                             Войти
                         </Button>
