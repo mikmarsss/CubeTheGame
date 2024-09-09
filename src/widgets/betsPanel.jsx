@@ -213,9 +213,9 @@ const BetsPanel = ({ rollDice }) => {
                         bbHover={'1px solid #7DFF3F'}
                         width={'338px'}
                         mt={'16px'}
-                        // onClick={showNumbersHandler}
                         disabled={(state.type === 'none' || userBalance.balance < betStatee.size) ? true : false}
                         onClick={playTheGameHandler}
+                        mb={'20px'}
                     >
                         Сделать ставку
                     </Button>

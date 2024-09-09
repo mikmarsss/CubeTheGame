@@ -46,7 +46,7 @@ const Game = () => {
                 </Container>
                 {
                     !isAusth &&
-                    <Container position={'absolute'} width={'100%'} height={'100%'} zIndex={'5'} backColor={'inherit'} opacity={'0.5'}>
+                    <Container position={'fixed'} width={'100%'} height={'100%'} zIndex={'5'} backColor={'inherit'} opacity={'0.5'}>
 
                     </Container>
                 }
