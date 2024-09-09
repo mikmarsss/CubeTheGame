@@ -21,6 +21,7 @@ const Game = () => {
 
     const rollDice = () => {
         setIsRolling(true);
+        
         setTimeout(() => {
             setIsRolling(false);
         }, 2000);
@@ -29,7 +30,7 @@ const Game = () => {
         <>
             <Container width={'100%'} minHeight={'100vh'} display={'flex'} fd={'column'} ai={'center'} jc={'center'}>
                 <Container width={'100%'} zIndex={'10'}>
-                    <Header />
+                    <Header isRolling = {isRolling} />
                 </Container>
                 {
                     !isAusth &&
@@ -50,7 +51,7 @@ const Game = () => {
 
                     {
                         !isAusth &&
-                        <Text fontSize={'20px'} font={'Inter-Bold'} zIndex={'10'} cursor={'pointer'}>
+                        <Text fontSize={'20px'} font={'Inter-Bold'} zIndex={'9'} cursor={'pointer'}>
                             Войдите, чтобы продолжить
                         </Text>
                     }
@@ -61,7 +62,7 @@ const Game = () => {
                         </Text>
                     }
                     {
-                        (isAusth && bet.status !== 'none') &&
+                        (isAusth && bet.status !== 'none' && !isRolling) &&
                         <>
                             <Text fontSize={'20px'} font={'Inter-Bold'}>
                                 Результат броска кубка: {dice.result}
@@ -73,6 +74,12 @@ const Game = () => {
                             </Text>
                         </>
 
+                    }
+                    {
+                        isRolling && 
+                        <Text fontSize={'20px'} font={'Inter-Regular'}>
+                        Бросаем кубик...
+                    </Text>
                     }
                     <Container
                         width={'338px'}

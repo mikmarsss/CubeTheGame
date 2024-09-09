@@ -16,6 +16,7 @@ export default class UserService {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const userData = await response.json();
+            console.log(userData)
             return userData;
         } catch (e) {
             console.log(e);

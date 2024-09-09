@@ -4,13 +4,15 @@ import Container from "../shared/ui/Container";
 import Text from "../shared/ui/Text/Text";
 import Input from "../shared/ui/Input";
 import { authPanelState } from "../app/atoms/authPanelAtom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import ExitButton from "../shared/ui/ExitButton/ExitButton";
 import { useLogin } from "../entities/hooks/useLogin";
 
 const AuthPanel = () => {
 
     const login = useLogin()
+
+
 
     const [state, setState] = useRecoilState(authPanelState);
     const [password, setPassword] = useState('')
@@ -22,7 +24,6 @@ const AuthPanel = () => {
             isVisible: !prevState.isVisible
         }));
     }
-
     const closeAuthPanelHandler = (show) => {
         setState((prevState) => ({
             ...prevState,

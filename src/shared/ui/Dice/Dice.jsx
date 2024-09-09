@@ -6,7 +6,7 @@ const rotateAnimation = keyframes`
     transform: rotateX(0deg) rotateY(0deg);
   }
   100% {
-    transform: rotateX(720deg)  rotateY(720deg);
+    transform: rotateX(1440deg)  rotateY(1080deg);
   }
 `;
 
@@ -17,7 +17,7 @@ const DiceContainer = styled.div`
   perspective: 1000px;
   transform-style: preserve-3d;
   ${props => props.isRolling && css`
-    animation: ${rotateAnimation} 2s linear infinite;
+    animation: ${rotateAnimation} 2s  ease-out;
   `}
 `;
 

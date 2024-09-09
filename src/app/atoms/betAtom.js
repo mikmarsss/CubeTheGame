@@ -5,6 +5,7 @@ export const betState = atom({
     default: {
         type: 'none',
         number: 0,
-        size: '1.00'
+        size: '1.00',
+        isRolling: false,
     }
 });

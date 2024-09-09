@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from 'styled-components';
 import Button from "../Button";
 import Text from "../Text/Text";
@@ -8,6 +8,7 @@ import { userState } from "../../../app/atoms/userAtom";
 import AuthPanel from "../../../widgets/authPanel";
 import Container from "../Container";
 import { authPanelState } from "../../../app/atoms/authPanelAtom";
+import { userBalanceState } from "../../../app/atoms/userBalance";
 
 const StyledHeader = styled.div`
    width: 100%;
@@ -18,12 +19,20 @@ const StyledHeader = styled.div`
     border:none;
 `;
 
-const Header = () => {
-    const [state, setState] = useRecoilState(authPanelState);
-
-
+const Header = ({isRolling}) => {
+    const userBalance = useRecoilValue(userBalanceState)
     const isAuth = useRecoilValue(authState)
     const user = useRecoilValue(userState)
+
+    const [state, setState] = useRecoilState(authPanelState);
+    const [prevBalance, setPrevBalance] = useState(userBalance.balance)
+   
+
+    useEffect(()=>{
+        setPrevBalance(userBalance.balance)
+    }, [userBalance])
+
+    console.log(userBalance.balance)
 
     const showAuthPanelHandler = (show) => {
         setState((prevState) => ({
@@ -76,8 +85,13 @@ const Header = () => {
                 {
                     isAuth &&
                     <Text width={'auto'} font={'Inter-Bold'} ml={'auto'} mr={'1.88%'} cursor={'pointer'}>
+                        {/* {
+                             !isRolling &&
+                           userBalance.balance + ' (TND)'
+                        } */}
                         {
-                            user.balance
+                            // isRolling &&
+                            prevBalance+ ' (TND)'
                         }
                     </Text>
 
